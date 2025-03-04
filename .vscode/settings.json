@@ -1,5 +1,7 @@
 {
 	"files.associations": {
-		"minitalk.h": "c"
+		"minitalk.h": "c",
+		"ft_printf.h": "c",
+		"stdio.h": "c"
 	}
 }

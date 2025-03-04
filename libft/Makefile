@@ -15,12 +15,11 @@ SRCS	= $(IS)/ft_isalpha.c $(IS)/ft_isdigit.c $(IS)/ft_isalnum.c $(IS)/ft_isascii
 		ft_atoi.c ft_calloc.c $(STR)/ft_strdup.c ft_substr.c \
 		$(STR)/ft_strjoin.c $(STR)/ft_strtrim.c ft_split.c ft_itoa.c \
 		$(STR)/ft_strmapi.c $(STR)/ft_striteri.c $(PUT)/ft_putchar_fd.c \
-		$(PUT)/ft_putstr_fd.c $(PUT)/ft_putendl_fd.c $(PUT)/ft_putnbr_fd.c
-SRCS_BONUS	=	$(LST)/ft_lstnew.c $(LST)/ft_lstadd_front.c $(LST)/ft_lstsize.c \
-				$(LST)/ft_lstlast.c $(LST)/ft_lstadd_back.c $(LST)/ft_lstdelone.c \
-				$(LST)/ft_lstclear.c $(LST)/ft_lstiter.c $(LST)/ft_lstmap.c
+		$(PUT)/ft_putstr_fd.c $(PUT)/ft_putendl_fd.c $(PUT)/ft_putnbr_fd.c \
+		$(LST)/ft_lstnew.c $(LST)/ft_lstadd_front.c $(LST)/ft_lstsize.c \
+		$(LST)/ft_lstlast.c $(LST)/ft_lstadd_back.c $(LST)/ft_lstdelone.c \
+		$(LST)/ft_lstclear.c $(LST)/ft_lstiter.c $(LST)/ft_lstmap.c
 OBJS	= $(SRCS:.c=.o)
-OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 CC		= cc
 RM		= rm -f
 CFLAGS	= -Wall -Wextra -Werror
@@ -31,14 +30,10 @@ CFLAGS	= -Wall -Wextra -Werror
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-bonus: $(OBJS_BONUS)
-	touch bonus
-	ar rcs $(NAME) $(OBJS_BONUS)
-
 all: $(NAME)
 
 clean:
-	$(RM) $(OBJS) $(OBJS_BONUS) bonus
+	$(RM) $(OBJS)
 
 fclean:	clean
 	$(RM) $(NAME)
