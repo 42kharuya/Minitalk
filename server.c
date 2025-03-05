@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:33:17 by kharuya           #+#    #+#             */
-/*   Updated: 2025/03/04 22:44:44 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/03/05 19:05:47 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ void	receiver(void handler(int, siginfo_t *, void *))
 
 int main()
 {
-	while (1);
+	while (1)
+		pause();
 	return 0;
 }
+
+// sigaction
+// sigemptyset
+// kill
+// get_pid
+// pause
