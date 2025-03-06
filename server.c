@@ -6,30 +6,55 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:33:17 by kharuya           #+#    #+#             */
-/*   Updated: 2025/03/05 19:05:47 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/03/06 20:48:20 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
 
-void	receiver(void handler(int, siginfo_t *, void *))
+static void	error_handling(int error_check)
 {
-	struct sigaction	act;
-
-	bzero(&act, sizeof(struct sigaction));
-	act.sa_sigaction = handler;
-	sigemptyset(&act.sa_mask);
-	act.sa_flags = SA_SIGINFO;
-	sigaction(SIGUSR1, &act, NULL);
-	sigaction(SIGUSR2, &act, NULL);
+	if (error_check == SIGEMPTYSET_ERROR)
+		ft_printf("Sigemptyset command error\n");
+	else if (error_check == SIGACTION_ERROR)
+		ft_printf("Sigaction command error\n");
+	exit (EXIT_FAILURE);
 }
 
-int main()
+static void	signal_handler(int signum, siginfo_t *info, void *context)
 {
+	static int				shift_count = 7;
+	static unsigned char	c;
+
+	(void)info;
+	(void)context;
+	if (signum == SIGUSR1)
+		c |= (1 << shift_count);
+	shift_count--;
+	if (shift_count < 0)
+	{
+		write (1, &c, 1);
+		shift_count = 7;
+		c = 0;
+	}
+	return ;
+}
+
+int	main(void)
+{
+	struct sigaction	sa;
+
+	ft_printf("[PID]%d\n", getpid());
+	sa.sa_sigaction = signal_handler;
+	sa.sa_flags = SA_SIGINFO;
+	if (sigemptyset(&sa.sa_mask) == -1)
+		error_handling(SIGEMPTYSET_ERROR);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1
+		|| sigaction(SIGUSR2, &sa, NULL) == -1)
+		error_handling(SIGACTION_ERROR);
 	while (1)
 		pause();
-	return 0;
+	return (0);
 }
 
 // sigaction
