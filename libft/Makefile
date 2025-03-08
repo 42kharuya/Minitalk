@@ -1,28 +1,24 @@
-#This is to execute with relink
-NAME	= libft.a
+SRCS	= ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
+		ft_isprint.c ft_strlen.c ft_memset.c ft_bzero.c \
+		ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_strlcat.c \
+		ft_toupper.c ft_tolower.c ft_strchr.c ft_strrchr.c \
+		ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c \
+		ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c \
+		ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c \
+		ft_strmapi.c ft_striteri.c ft_putchar_fd.c \
+		ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
+SRCS_BONUS	=	ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
 
-LST		= ./lst
-MEM		= ./mem
-PUT		= ./put
-STR		= ./str
-TO		= ./to
-IS		= ./is
-SRCS	= $(IS)/ft_isalpha.c $(IS)/ft_isdigit.c $(IS)/ft_isalnum.c $(IS)/ft_isascii.c \
-		$(IS)/ft_isprint.c $(STR)/ft_strlen.c $(MEM)/ft_memset.c ft_bzero.c \
-		$(MEM)/ft_memcpy.c $(MEM)/ft_memmove.c $(STR)/ft_strlcpy.c $(STR)/ft_strlcat.c \
-		$(TO)/ft_toupper.c $(TO)/ft_tolower.c $(STR)/ft_strchr.c $(STR)/ft_strrchr.c \
-		$(STR)/ft_strncmp.c $(MEM)/ft_memchr.c $(MEM)/ft_memcmp.c $(STR)/ft_strnstr.c \
-		ft_atoi.c ft_calloc.c $(STR)/ft_strdup.c ft_substr.c \
-		$(STR)/ft_strjoin.c $(STR)/ft_strtrim.c ft_split.c ft_itoa.c \
-		$(STR)/ft_strmapi.c $(STR)/ft_striteri.c $(PUT)/ft_putchar_fd.c \
-		$(PUT)/ft_putstr_fd.c $(PUT)/ft_putendl_fd.c $(PUT)/ft_putnbr_fd.c \
-		$(LST)/ft_lstnew.c $(LST)/ft_lstadd_front.c $(LST)/ft_lstsize.c \
-		$(LST)/ft_lstlast.c $(LST)/ft_lstadd_back.c $(LST)/ft_lstdelone.c \
-		$(LST)/ft_lstclear.c $(LST)/ft_lstiter.c $(LST)/ft_lstmap.c
 OBJS	= $(SRCS:.c=.o)
+OBJS_BONUS = $(SRCS_BONUS:.c=.o)
+NAME	= libft.a
 CC		= cc
 RM		= rm -f
 CFLAGS	= -Wall -Wextra -Werror
+
+ifdef WITH_BONUS
+    OBJS += $(OBJS_BONUS)
+endif
 
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -32,8 +28,11 @@ $(NAME): $(OBJS)
 
 all: $(NAME)
 
+bonus:
+	@make WITH_BONUS=1
+
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean:	clean
 	$(RM) $(NAME)

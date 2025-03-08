@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:33:19 by kharuya           #+#    #+#             */
-/*   Updated: 2025/03/06 20:45:18 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/03/08 21:22:14 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
 # include <signal.h>
-# include <unistd.h>
 
 # define INPUT_ERROR 1
 # define PID_ERROR 2
