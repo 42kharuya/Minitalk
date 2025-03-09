@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:33:17 by kharuya           #+#    #+#             */
-/*   Updated: 2025/03/08 21:15:49 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/03/09 18:29:49 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,11 @@ static void	error_handling(int error_check)
 	exit (EXIT_FAILURE);
 }
 
-static void	signal_handler(int signum, siginfo_t *info, void *context)
+static void	signal_handler(int signum)
 {
 	static int				shift_count = 7;
 	static unsigned char	c;
 
-	(void)info;
-	(void)context;
 	if (signum == SIGUSR1)
 		c |= (1 << shift_count);
 	shift_count--;
@@ -45,10 +43,12 @@ int	main(void)
 	struct sigaction	sa;
 
 	ft_printf("[PID]%d\n", getpid());
-	sa.sa_sigaction = signal_handler;
-	sa.sa_flags = SA_SIGINFO;
+	sa.sa_handler = signal_handler;
 	if (sigemptyset(&sa.sa_mask) == -1)
 		error_handling(SIGEMPTYSET_ERROR);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
+	sa.sa_flags = 0;
 	if (sigaction(SIGUSR1, &sa, NULL) == -1
 		|| sigaction(SIGUSR2, &sa, NULL) == -1)
 		error_handling(SIGACTION_ERROR);

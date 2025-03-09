@@ -6,7 +6,7 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:33:11 by kharuya           #+#    #+#             */
-/*   Updated: 2025/03/06 20:56:40 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/03/09 18:54:02 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	send_c(char c, pid_t pid)
 			sig = SIGUSR2;
 		if (kill(pid, sig) == -1)
 			error_handling(KILL_ERROR);
-		if (usleep(100) == -1)
+		if (usleep(500) == -1)
 			error_handling(USLEEP_ERROR);
 		shift_count--;
 	}
@@ -70,15 +70,3 @@ int	main(int argc, char *argv[])
 	}
 	exit(EXIT_SUCCESS);
 }
-
-// グローバル変数あり
-
-// 使用するコマンド
-// exit
-// kill
-// usleep
-
-// エラーケース
-// input_error
-// pid_error
-// kill_error
