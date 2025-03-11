@@ -6,28 +6,20 @@
 /*   By: kharuya <haruya.0411.k@gmail.com>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/28 20:33:17 by kharuya           #+#    #+#             */
-/*   Updated: 2025/03/09 18:29:49 by kharuya          ###   ########.fr       */
+/*   Updated: 2025/03/11 09:11:46 by kharuya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-
-static void	error_handling(int error_check)
-{
-	if (error_check == SIGEMPTYSET_ERROR)
-		ft_printf("Sigemptyset command error\n");
-	else if (error_check == SIGACTION_ERROR)
-		ft_printf("Sigaction command error\n");
-	exit (EXIT_FAILURE);
-}
 
 static void	signal_handler(int signum)
 {
 	static int				shift_count = 7;
 	static unsigned char	c;
 
+	c <<= 1;
 	if (signum == SIGUSR1)
-		c |= (1 << shift_count);
+		c += 1;
 	shift_count--;
 	if (shift_count < 0)
 	{
@@ -56,9 +48,3 @@ int	main(void)
 		pause();
 	return (0);
 }
-
-// sigaction
-// sigemptyset
-// kill
-// get_pid
-// pause

@@ -12,11 +12,20 @@ LIBFT	= $(LIBFT_DIR)/libft.a
 PRINTF_DIR = ./ft_printf
 PRINTF = $(PRINTF_DIR)/libftprintf.a
 
-S_SRCS	= server.c
-C_SRCS = client.c
+ifdef WITH_BONUS
+    S_SRCS = server_bonus.c
+    C_SRCS = client_bonus.c
+    S_OBJS = $(S_SRCS:.c=.o)
+    C_OBJS = $(C_SRCS:.c=.o)
+else
+    S_SRCS = server.c
+    C_SRCS = client.c
+    S_OBJS = $(S_SRCS:.c=.o)
+    C_OBJS = $(C_SRCS:.c=.o)
+endif
 
-S_OBJS	= $(S_SRCS:.c=.o)
-C_OBJS = $(C_SRCS:.c=.o)
+UTILS_SRCS = utils.c
+UTILS_OBJS = $(UTILS_SRCS:.c=.o)
 
 RM		= rm -f
 
@@ -25,13 +34,13 @@ RM		= rm -f
 
 all: $(C_TARGET) $(S_TARGET)
 
-$(C_TARGET): $(C_OBJS) $(LIBFT) $(PRINTF)
-	$(CC) $(FLAGS) -o $@ $(C_OBJS) $(INC) $(LIBFT) $(PRINTF)
+$(C_TARGET): $(C_OBJS) $(UTILS_OBJS) $(LIBFT) $(PRINTF)
+	$(CC) $(FLAGS) $(C_OBJS) $(UTILS_OBJS) $(LIBFT) $(PRINTF) -o $(C_TARGET)
 
-$(S_TARGET): $(S_OBJS) $(LIBFT) $(PRINTF)
-	$(CC) $(FLAGS) -o $@ $(S_OBJS) $(INC) $(LIBFT) $(PRINTF)
+$(S_TARGET): $(S_OBJS) $(UTILS_OBJS) $(LIBFT) $(PRINTF)
+	$(CC) $(FLAGS) $(S_OBJS) $(UTILS_OBJS) $(LIBFT) $(PRINTF) -o $(S_TARGET)
 
-$(C_OBJS) $(S_OBJS): %.o: %.c
+$(C_OBJS) $(S_OBJS) $(UTILS_OBJS): %.o: %.c
 	$(CC) $(FLAGS) -c $< -o $@ $(INC)
 
 $(LIBFT) :
@@ -40,14 +49,17 @@ $(LIBFT) :
 $(PRINTF):
 	make -C $(PRINTF_DIR)
 
+bonus:
+	make WITH_BONUS=1
+
 clean:
 	make fclean -C libft
 	make fclean -C ft_printf
-	$(RM) $(S_OBJS) $(C_OBJS)
+	$(RM) client.o server.o client_bonus.o server_bonus.o utils.o
 
 fclean:	clean
 	$(RM) $(S_TARGET) $(C_TARGET)
 
 re:	fclean	all
 
-.PHONY:	all clean fclean re
+.PHONY:	all clean fclean re bonus
